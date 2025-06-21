@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  nginx-router:
+    build: ./router
+    ports:
+      - "7447:80"
+    networks:
+      - cluster
+
+  cache-a:
+    build: ./cache
+    hostname: cache-a
+    networks:
+      - cluster
+
+  cache-b:
+    build: ./cache
+    hostname: cache-b
+    networks:
+      - cluster
+
+  backend:
+    image: kennethreitz/httpbin
+    networks:
+      - cluster
+
+networks:
+  cluster:
+    driver: bridge
